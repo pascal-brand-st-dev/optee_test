@@ -16,7 +16,7 @@ endif
 
 .PHONY: all
 ifneq ($(wildcard $(TA_DEV_KIT_DIR)/host_include/conf.mk),)
-all: xtest ta
+all: xtest ta smaf
 else
 all:
 	$(q)echo "TA_DEV_KIT_DIR is not correctly defined" && false
@@ -30,6 +30,14 @@ xtest:
 			     O=$(out-dir)/xtest \
 			     $@
 
+.PHONY: smaf
+smaf:
+	$(q)$(MAKE) -C host/smaf CROSS_COMPILE="$(CROSS_COMPILE_HOST)" \
+			     --no-builtin-variables \
+			     q=$(q) \
+			     O=$(out-dir)/smaf \
+			     $@
+
 .PHONY: ta
 ta:
 	$(q)$(MAKE) -C ta CROSS_COMPILE="$(CROSS_COMPILE_TA)" \
@@ -41,6 +49,7 @@ ta:
 ifneq ($(wildcard $(TA_DEV_KIT_DIR)/host_include/conf.mk),)
 clean:
 	$(q)$(MAKE) -C host/xtest O=$(out-dir)/xtest q=$(q) $@
+	$(q)$(MAKE) -C host/smaf O=$(out-dir)/smaf q=$(q) $@
 	$(q)$(MAKE) -C ta O=$(out-dir)/ta q=$(q) $@
 else
 clean:

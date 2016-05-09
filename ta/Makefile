@@ -16,6 +16,7 @@ TA_DIRS := create_fail_test \
 	   sims \
 	   storage \
 	   concurrent \
+	   smaf \
 	   storage_benchmark
 
 ifdef CFG_GP_PACKAGE_PATH
@@ -39,7 +40,7 @@ endif
 all: ta
 
 .PHONY: ta
-ta: 
+ta:
 	$(q)$(foreach dir,$(TA_DIRS), $(MAKE) -C $(dir) O=$(O)/$(dir) &&) true
 
 .PHONY: clean
